@@ -1,0 +1,2 @@
+$ python main.py
+Counter({'blue': 2, 'red': 2})
