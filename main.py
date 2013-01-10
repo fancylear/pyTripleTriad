@@ -4,23 +4,35 @@ from Card import Card
 from Grid import Grid
 from Player import Player
 
+import time
+import Tkinter, ImageTk
+from PIL import Image
+
+
 grid = Grid()
-me = Player(**dict(name='Jeff', color='blue'))
-oppt = Player(**dict(name='Bob', color='red'))
-
-my_gayla = Card(**dict(name='gayla', color=me.getColor(),
+gayla = Card(**dict(name='Gayla', color='red',
                     upper=2, lower=4, left=4, right=1))
-my_geezard = Card(**dict(name='geezard', color=me.getColor(),
-                      upper=1, lower=1, left=5, right=4))
-
-oppt_gayla = Card(**dict(name='gayla', color=oppt.getColor(),
+geezard = Card(**dict(name='Geezard', color='red',
                     upper=2, lower=4, left=4, right=1))
-oppt_geezard = Card(**dict(name='geezard', color=oppt.getColor(),
-                      upper=1, lower=1, left=5, right=4))
 
-grid.placeCard(0, my_gayla)
-grid.placeCard(1, oppt_geezard)
-grid.placeCard(4, my_geezard)
-grid.placeCard(3, oppt_gayla)
+grid.placeCard((0, 0), gayla)
+grid.placeCard((1, 1), geezard)
+grid.placeCard((2, 2), geezard)
 
-print grid.getScore()
+window = Tkinter.Tk()
+frame = Tkinter.Frame(window, width=279, height=360)
+frame.pack(fill=None, expand=False)
+
+for y in range(3):
+    for x in range(3):
+        pos = (y, x)
+       
+        if grid.getPos(pos):
+            card = grid.getPos(pos)
+            image = Image.open(card.getImage())
+            globals()['p%s%s' % pos ] = ImageTk.PhotoImage(image)
+            label = Tkinter.Label(frame, image=globals()['p%s%s' % pos ])
+            label.place(x=pos[0] * 93, y=pos[1] * 120, width=93, height=120)
+
+        
+window.mainloop()
